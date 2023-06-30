@@ -5,6 +5,9 @@ import { jsx, css } from "@emotion/react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ClearIcon from "@mui/icons-material/Clear";
+import { Select } from "@mui/material";
+import { MenuItem } from "@mui/material";
+import { OutlinedInput } from "@mui/material";
 
 type Todo = {
   title: string;
@@ -17,24 +20,31 @@ type ListProps = {
 const listItem = css`
   display: flex;
   align-items: center;
-  gap: 10px;
-  width: 600px;
+  justify-content: space-around;
+  width: 700px;
   height: 100px;
   margin: 10px auto;
   padding: 0 10px;
   border-radius: 10px;
 `;
+const editArea = css`
+  display: flex;
+  align-items: center;
+`;
 const buttonArea = css`
   display: flex;
-  gap: 20px;
   list-style-type: none;
 `;
-const selectorStyle = css`
-  padding: 5px 8px;
+
+const buttonStyle = css`
   border: none;
-  border-radius: 3px;
-  background-color: transparent;
-  color: gray;
+  padding: 5px;
+  margin-left: 5px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 export const List: React.FC<ListProps> = ({ todoList, setTodoList }) => {
   const [edit, setEdit] = useState<number | null>(null);
@@ -90,46 +100,64 @@ export const List: React.FC<ListProps> = ({ todoList, setTodoList }) => {
           }
         >
           <label htmlFor="state-selector">
-            <select
-              name="state"
-              id="state-selector"
-              css={selectorStyle}
+            <Select
+              defaultValue={"undone"}
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
               onChange={(e) => stateUpdate(e, index)}
             >
-              <option value="undone">未達成</option>
-              <option value="completed">達成</option>
-            </select>
+              <MenuItem value={"undone"}>未達成</MenuItem>
+              <MenuItem value={"completed"}>達成</MenuItem>
+            </Select>
           </label>
           <p style={{ fontSize: "24px" }}>{todo.title}</p>
           <div>
             {edit === index ? (
-              <>
-                <input
-                  type="text"
+              <div css={editArea}>
+                <OutlinedInput
+                  placeholder="Please enter text"
                   value={changeText}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setChangeText(e.target.value)
                   }
                 />
-                <button onClick={() => stateCheck(index)}>
+                <button
+                  style={{ backgroundColor: "#69D173" }}
+                  css={buttonStyle}
+                  onClick={() => stateCheck(index)}
+                >
                   <EditIcon />
                 </button>
-                <button onClick={() => setEdit(null)}>
+                <button
+                  style={{ backgroundColor: "#D71313" }}
+                  css={buttonStyle}
+                  onClick={() => setEdit(null)}
+                >
                   <ClearIcon />
                 </button>
-              </>
+              </div>
             ) : (
               <></>
             )}
           </div>
           <ul css={buttonArea}>
             <li>
-              <button type="button" onClick={() => setEdit(index)}>
+              <button
+                style={{ backgroundColor: "#69D173" }}
+                css={buttonStyle}
+                type="button"
+                onClick={() => setEdit(index)}
+              >
                 <EditIcon />
               </button>
             </li>
             <li>
-              <button type="button" onClick={() => onDelete(index)}>
+              <button
+                style={{ backgroundColor: "#D71313" }}
+                css={buttonStyle}
+                type="button"
+                onClick={() => onDelete(index)}
+              >
                 <DeleteForeverIcon />
               </button>
             </li>
