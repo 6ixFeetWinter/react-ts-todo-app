@@ -30,6 +30,7 @@ const listItem = css`
 const editArea = css`
   display: flex;
   align-items: center;
+  justify-content: center;
 `;
 const buttonArea = css`
   display: flex;
